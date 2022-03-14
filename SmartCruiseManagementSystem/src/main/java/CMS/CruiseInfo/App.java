@@ -1,27 +1,27 @@
 package CMS.CruiseInfo;
 
+//Importing Libraries
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-public class App extends Methods {
-	public static void main(String[] args)
-			throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+public class App extends Methods //Inheritance
+{
+	public static void main(String[] args) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException 
+	{
 		Scanner sc = new Scanner(System.in);
-		try {
+	try { //try start
 			int EventChoice;
 			char choice;
 			int totalcount = 0;
 			int count = 0;
 			int readFirst = 0; // Count for read data first
 
-			String fname = "CustomerInfo";// Saving File Name in variable
 
 			//
 			List<Customer> aList = new ArrayList<Customer>();
@@ -37,33 +37,36 @@ public class App extends Methods {
 				System.out.println();
 				System.out.println("Enter Your Choice");// Take input from user
 				EventChoice = sc.nextInt();
-
+				String fname=" ";
 				// Switch Start
 				switch (EventChoice) {
 				case 1:
 					try {
 						int countRecord = 0;
 						int total = 0;
-						String path = ("src/main/resources/" + fname + ".csv");
-						CSVReader reader = new CSVReader(new FileReader(path));
-						String[] temp;
-						while ((temp = reader.readNext()) != null) {
-							total++;
-							//Email Validation
-							if ((temp[2].endsWith("gmail.com") || temp[2].endsWith(".in"))
-									|| temp[2].endsWith("yahoo.com") & temp[2].contains("@")) {
-								Customer user = new Customer();
-								user.setId(temp[0]);
-								user.setName(temp[1]);
-								user.setMail(temp[2]);
-								aList.add(user);
-								countRecord++;
+						System.out.println("Enter File Name");
+						fname=sc.next();
+							String path = ("src/main/resources/" + fname + ".csv");
+							CSVReader reader = new CSVReader(new FileReader(path));
+							String[] temp;
+							while ((temp = reader.readNext()) != null) {
+								total++;
+								//Email Validation
+								if ((temp[2].endsWith("gmail.com") || temp[2].endsWith(".in"))
+										|| temp[2].endsWith("yahoo.com") & temp[2].contains("@")) {
+									Customer user = new Customer();
+									user.setId(temp[0]);
+									user.setName(temp[1]);
+									user.setMail(temp[2]);
+									aList.add(user);
+									countRecord++;
+								}
 							}
-						}
-						System.out.println("Number of record read : " + countRecord);
-						int balCount = total - countRecord;
-						System.out.println("Number of records not added due to invalid Email: " + balCount);
-					} catch (Exception e) {
+							System.out.println("Number of record read : " + countRecord);
+							int balCount = total - countRecord;
+							System.out.println("Number of records not added due to invalid Email: " + balCount);
+						
+						} catch (Exception e) {
 						System.out.println(fname + " Not Found!! Enter Valid name.");
 					}
 					readFirst++;
@@ -82,7 +85,7 @@ public class App extends Methods {
 
 					break; // case 2 End
 
-				case 3://Search by Name and NAme Validation
+				case 3://Search by Name and Name Validation
 					if (readFirst != 0) {
 						System.out.println("Enter Name for Search Records ");
 						String customer_name = sc.next();
@@ -103,7 +106,7 @@ public class App extends Methods {
 					}
 					break; // case 3 End
 
-				case 4://SEarch by Id
+				case 4://Search by Id
 					if (readFirst != 0) 
 					{
 						System.out.println("Enter id for Search Records ");
@@ -301,15 +304,14 @@ public class App extends Methods {
 
 				// For While
 				System.out.println();
-				System.out.println("Do you Want to perform again(y/n)");
-				choice = sc.next().charAt(0);
-			} while (choice == 'y');// DoWhile End
+			} while (EventChoice>0);// DoWhile End
 
-		} catch (Exception e)// InputMismatchException
-		{
-			System.out.println("Input Mismatch! Please Put right Input");
-		}
-
-	}
-
+	} catch (Exception e)// InputMismatchException
+	{
+		System.out.println("Input Mismatch! Please Put right Input");
+		System.out.println("Please Enter Option again"); //After Mismatch Exception to continue the program
+	}//try catch End
+	
+  }
+	
 }
